@@ -1,0 +1,1 @@
+Easily dissect and summarize your application / cluster metrics with this command line tool / gem.
