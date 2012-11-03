@@ -23,6 +23,7 @@ module MetricsParser
 
   # @returns a set of flattened hash keys that's the union of the individual flat hash keys for each JSON blob
   def self.list_keys_for_hashes(json_trees)
+    json_trees.map { |tree| self.flatten_tree(tree).keys }.flatten.uniq.sort
   end
 
   # @param flat_tree As returned by flatten_tree
