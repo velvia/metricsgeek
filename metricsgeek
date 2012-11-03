@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require "trollop"
+require "lib/metrics_downloader"
+require "lib/metrics_parser"
+
+opts = Trollop::options do
+  opt :select, "metrics keys", :type => :string
+  opt :from, "host names", :type => :string
+  opt :port, "port #", :default => 7000
+  opt :route, "JSON metrics route", :default => "metricz"
+  opt :list_keys, "Just list the keys"
+end
+
+expanded_hosts = opts[:from].split(",").map { |expr| MetricsDownloader.expand_host_expr(expr) }.flatten
+urls = MetricsDownloader.create_urls_from_host_params(expanded_hosts, opts[:port], opts[:route])
+json_trees = MetricsDownloader.download_and_parse_json_from_urls(urls)
+
+if opts[:list_keys]
+  MetricsParser.list_keys_for_hashes(json_trees).each { |key| puts key }
+end
