@@ -26,4 +26,17 @@ module MetricsDownloader
       "http://#{host}:#{port}/#{route}"
     end
   end
+
+  # @param host_expr A host string with an embedded range [1..18] or individual numbers,
+  #                  [1..5,7,9]  =>  1,2,3,4,5,7,9 will be substituted
+  # @returns An expanded list of hosts, basically with the range expanded into numbers.
+  def self.expand_host_expr(host_expr)
+    if host_expr =~ /(\[([0-9.,]+)\])/
+      embedded_expr = $1
+      numbers = $2.split(",").map { |item| item.include?("..") ? eval(item).to_a : [item.to_i] }.flatten
+      numbers.map { |n| host_expr.gsub(embedded_expr, n.to_s) }
+    else
+      [host_expr]
+    end
+  end
 end
