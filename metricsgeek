@@ -17,4 +17,14 @@ json_trees = MetricsDownloader.download_and_parse_json_from_urls(urls)
 
 if opts[:list_keys]
   MetricsParser.list_keys_for_hashes(json_trees).each { |key| puts key }
+else
+  keys = opts[:select].split(",")
+  host_key_value = expanded_hosts.zip(json_trees).map do |host, json_tree|
+    flat_tree = MetricsParser.flatten_tree(json_tree)
+    keys.map { |key| {:host => host, :key => key, :value => flat_tree[key]} }
+  end.flatten
+  host_key_value.group_by { |hash| hash[:key] }.each do |key, hashes|
+    puts "\n\nFor key: #{key}"
+    hashes.each { |h| puts "  #{h[:host]}\t#{h[:value]}"}
+  end
 end
