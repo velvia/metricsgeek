@@ -1,1 +1,1 @@
-Easily dissect and summarize your application / cluster metrics with this command line tool / gem.
+Easily grok your JSON application metrics from a cluster with this command line tool / gem.
