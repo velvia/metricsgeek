@@ -4,8 +4,8 @@ require "lib/metrics_downloader"
 require "lib/metrics_parser"
 
 opts = Trollop::options do
-  opt :select, "metrics keys", :type => :string
-  opt :from, "host names", :type => :string
+  opt :select, "metrics keys or key glob patterns, comma separated", :type => :string
+  opt :from, "host names, comma separated, may contain [1..10] ranges", :type => :string
   opt :port, "port #", :default => 7000
   opt :route, "JSON metrics route", :default => "metricz"
   opt :list_keys, "Just list the keys"
