@@ -20,8 +20,10 @@ if opts[:list_keys]
 else
   keys = opts[:select].split(",")
   host_key_value = expanded_hosts.zip(json_trees).map do |host, json_tree|
-    flat_tree = MetricsParser.flatten_tree(json_tree)
-    keys.map { |key| {:host => host, :key => key, :value => flat_tree[key]} }
+    matching_key_values = MetricsParser.glob_key_values(json_tree, keys)
+    matching_key_values.map do |flatkey, value|
+      {:host => host, :key => flatkey, :value => value}
+    end
   end.flatten
   host_key_value.group_by { |hash| hash[:key] }.each do |key, hashes|
     puts "\n\nFor key: #{key}"

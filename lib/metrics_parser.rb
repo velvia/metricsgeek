@@ -26,9 +26,16 @@ module MetricsParser
     json_trees.map { |tree| self.flatten_tree(tree).keys }.flatten.uniq.sort
   end
 
-  # @param flat_tree As returned by flatten_tree
-  # @param key_pattern a glob pattern for matching keys
-  # @returns a hash of flat_key to value for all keys matching a given key pattern
-  def self.glob_key_values(json_tree)
+  # @param json_tree As returned by JSON,parse()
+  # @param key_patterns a list of glob pattern strings for matching keys
+  # @returns a hash of flat_key to value for all keys matching any of the key_patterns
+  def self.glob_key_values(json_tree, key_patterns)
+    matches = {}
+    flat_tree = flatten_tree(json_tree)
+    key_patterns.each do |key_pattern|
+      matching_keys = flat_tree.keys.select { |key| File.fnmatch(key_pattern, key) }
+      matches.merge!(Hash[ matching_keys.map { |key| [key, flat_tree[key]] } ])
+    end
+    matches
   end
 end
