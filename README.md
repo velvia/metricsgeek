@@ -4,6 +4,16 @@ or any metrics package that exposes metrics via an HTTP route as JSON.
 
 The only assumption is that the JSON consists of deeper and deeper levels of hashes.
 
+Quick start
+===========
+To get a list of metrics keys from your servers:
+
+    metricsgeek --list_keys --from "server[1..8].abc.com"
+
+To get two metrics, one a pattern, from your servers:
+
+    metricsgeek --select jvm.uptime,com.abc.*.latency.mean --from "server[1..8].abc.com"
+
 Host selection
 ==============
 You can select multiple hosts to query in two ways.
