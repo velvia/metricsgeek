@@ -9,6 +9,17 @@ opts = Trollop::options do
   opt :port, "port #", :default => 7000
   opt :route, "JSON metrics route", :default => "metricz"
   opt :list_keys, "Just list the keys"
+  opt :group, "Group metrics from hosts using min/max/avg/sum", :type => :string
+end
+
+class Array
+  def sum
+    self.inject(0) { |a, s| a + s }
+  end
+
+  def avg
+    self.sum * 1.0 / self.length
+  end
 end
 
 expanded_hosts = opts[:from].split(",").map { |expr| MetricsDownloader.expand_host_expr(expr) }.flatten
@@ -27,6 +38,11 @@ else
   end.flatten
   host_key_value.group_by { |hash| hash[:key] }.each do |key, hashes|
     puts "\n\nFor key: #{key}"
-    hashes.each { |h| puts "  #{h[:host]}\t#{h[:value]}"}
+    if opts[:group]
+      values = hashes.map { |h| h[:value] }
+      opts[:group].split(",").each { |func| puts "  #{func}: #{values.send(func.to_sym)}" }
+    else
+      hashes.each { |h| puts "  #{h[:host]}\t#{h[:value]}"}
+    end
   end
 end
