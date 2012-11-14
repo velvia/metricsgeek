@@ -5,16 +5,19 @@ require "rest_client"
 module MetricsDownloader
   # @returns a list of parsed JSON hashes from each url
   def self.download_and_parse_json_from_urls(urls)
-    # TODO: use futures for faster metrics consumption
-    urls.map do |url|
-      begin
-        JSON.parse(RestClient.get url)
-      rescue
-        # TODO: log the exception?
-        STDERR.puts "WARNING: Unable to parse JSON from #{url}"
-        {}
+    threads = urls.map do |url|
+      Thread.new do
+        Thread.current[:output] = begin
+          JSON.parse(RestClient.get url)
+        rescue
+          # TODO: log the exception?
+          STDERR.puts "WARNING: Unable to parse JSON from #{url}"
+          {}
+        end
       end
     end
+
+    threads.map { |t| t.join; t[:output] }
   end
 
   # @param host_list A list of host strings, without the port, optionally with http:// prefix
