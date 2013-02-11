@@ -4,11 +4,14 @@ require "rest_client"
 
 module MetricsDownloader
   # @returns a list of parsed JSON hashes from each url
-  def self.download_and_parse_json_from_urls(urls)
+  def self.download_and_parse_json_from_urls(urls, timeout = 5)
     threads = urls.map do |url|
       Thread.new do
         Thread.current[:output] = begin
-          JSON.parse(RestClient.get url)
+          body = RestClient::Request.execute(:method => :get, :url => url,
+                                             :timeout => timeout,
+                                             :open_timeout => timeout)
+          JSON.parse(body)
         rescue
           # TODO: log the exception?
           STDERR.puts "WARNING: Unable to parse JSON from #{url}"
