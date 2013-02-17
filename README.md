@@ -4,6 +4,11 @@ metrics, or any metrics package that exposes metrics via an HTTP route as JSON.
 
 The only assumption is that the JSON consists of deeper and deeper levels of hashes.
 
+* Get metrics in real time, no need to wait minutes for a central service to index your logs
+* Easily see load and traffic imbalances across a cluster
+* Select and filter metrics easily using wildcards
+* Group and summarize metrics
+
 Quick start
 ===========
 To get a list of metrics keys from your servers:
