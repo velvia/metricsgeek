@@ -10,7 +10,8 @@ metrics, or any metrics package that exposes metrics via an HTTP route as JSON.
 EOT
   s.authors     = ["Evan Chan"]
   s.email       = 'velvia@gmail.com'
-  s.files       = Dir['lib/**/*.rb'] + Dir['bin/*']
+  s.files       = Dir['lib/**/*.rb', 'bin/*', '*.md']
+  s.executables << "metricsgeek"
   s.homepage    =
     'http://github.com/velvia/metricsgeek'
 end
