@@ -19,6 +19,11 @@ To get two metrics, one a pattern, from your servers:
 
     metricsgeek --select jvm.uptime,com.abc.*.latency.mean --from "server[1..8].abc.com"
 
+Port and Route
+==============
+The port defaults to 7000 and the route defaults to /metricz.  Both of these can be set via the --port and
+--route options.
+
 Host selection
 ==============
 You can select multiple hosts to query in two ways.
