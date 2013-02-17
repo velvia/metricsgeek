@@ -22,6 +22,10 @@ class Array
   end
 end
 
+def format(number)
+  "%7.3f" % [number]
+end
+
 expanded_hosts = opts[:from].split(",").map { |expr| MetricsDownloader.expand_host_expr(expr) }.flatten
 urls = MetricsDownloader.create_urls_from_host_params(expanded_hosts, opts[:port], opts[:route])
 json_trees = MetricsDownloader.download_and_parse_json_from_urls(urls, opts[:timeout])
@@ -40,9 +44,9 @@ else
     puts "\n\nFor key: #{key}"
     if opts[:group]
       values = hashes.map { |h| h[:value] }
-      opts[:group].split(",").each { |func| puts "  #{func}: #{values.send(func.to_sym)}" }
+      opts[:group].split(",").each { |func| puts "  #{func}: #{format(values.send(func.to_sym))}" }
     else
-      hashes.each { |h| puts "  #{h[:host]}\t#{h[:value]}"}
+      hashes.each { |h| puts "  #{h[:host]}\t#{format(h[:value])}"}
     end
   end
 end
