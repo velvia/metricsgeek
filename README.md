@@ -11,6 +11,10 @@ The only assumption is that the JSON consists of deeper and deeper levels of has
 
 Quick start
 ===========
+Install this gem:
+
+    gem install metricsgeek
+
 To get a list of metrics keys from your servers:
 
     metricsgeek --list_keys --from "server[1..8].abc.com"
@@ -54,3 +58,10 @@ character selection.
 
 Grouping metrics
 ================
+Intead of displaying metrics from every host on a separate line, you can group the metrics together from all hosts using one of four functions: sum, min, max, avg.  For example, to compute the average uptime of all hosts:
+
+    metricsgeek --select jvm.uptime --from "server[1..8].dc" --group avg
+
+Or, to sum up the POST rate from metric com.abc.webservice.posts.m1 across the cluster:
+
+    metricsgeek --select com.abc.webservice.posts.m1 --from "server[1..8].dc" --group sum
