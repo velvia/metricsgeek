@@ -65,3 +65,7 @@ Intead of displaying metrics from every host on a separate line, you can group t
 Or, to sum up the POST rate from metric com.abc.webservice.posts.m1 across the cluster:
 
     metricsgeek --select com.abc.webservice.posts.m1 --from "server[1..8].dc" --group sum
+
+How to contribute
+=================
+Pull requests are welcome!
