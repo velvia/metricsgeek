@@ -1,6 +1,6 @@
-Easily grok your JSON application metrics from a cluster with this command line tool / gem.
-Compatible with HTTP JSON metrics routes as created by Coda Hale's metrics package, or ruby-metrics,
-or any metrics package that exposes metrics via an HTTP route as JSON.
+Easily grok and analyze your application metrics from a cluster, in real time, with this command line tool /
+gem. Compatible with HTTP JSON metrics routes as exposed by Coda Hale's metrics package, Jolokia, ruby-
+metrics, or any metrics package that exposes metrics via an HTTP route as JSON.
 
 The only assumption is that the JSON consists of deeper and deeper levels of hashes.
 
