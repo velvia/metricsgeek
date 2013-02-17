@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require "trollop"
-require "lib/metrics_downloader"
-require "lib/metrics_parser"
+require "metricsgeek"
 
 opts = Trollop::options do
   opt :select, "metrics keys or key glob patterns, comma separated", :type => :string
