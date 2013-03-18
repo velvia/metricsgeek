@@ -26,15 +26,14 @@ def format(number)
   "%7.3f" % [number]
 end
 
-expanded_hosts = opts[:from].split(",").map { |expr| MetricsDownloader.expand_host_expr(expr) }.flatten
-urls = MetricsDownloader.create_urls_from_host_params(expanded_hosts, opts[:port], opts[:route])
-json_trees = MetricsDownloader.download_and_parse_json_from_urls(urls, opts[:timeout])
+json_trees = MetricsDownloader.parse_json_from(opts[:from].split(","), opts[:port], opts[:route],
+                                               opts[:timeout])
 
 if opts[:list_keys]
-  MetricsParser.list_keys_for_hashes(json_trees).each { |key| puts key }
+  MetricsParser.list_keys_for_hashes(json_trees.values).each { |key| puts key }
 else
   keys = opts[:select].split(",")
-  host_key_value = expanded_hosts.zip(json_trees).map do |host, json_tree|
+  host_key_value = json_trees.map do |host, json_tree|
     matching_key_values = MetricsParser.glob_key_values(json_tree, keys)
     matching_key_values.map do |flatkey, value|
       {:host => host, :key => flatkey, :value => value}

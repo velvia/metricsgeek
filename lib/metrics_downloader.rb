@@ -45,4 +45,19 @@ module MetricsDownloader
       [host_expr]
     end
   end
+
+  # Parses JSON from a list of host expressions, as passed to expand_host_expr.  Basically a combination
+  # of expand_host_expr, create_urls_from_host_params, and download_and_parse_json_from_urls.
+  #
+  # @param hosts A list of host expressions, as passed to expand_host_expr
+  # @param port The integer port to query
+  # @param route The string after / for getting metrics, defaults to "metricz/"
+  # @param timeout The timeout in seconds for fetching data
+  # @returns A hash { hostname => json_tree }
+  def self.parse_json_from(hosts, port, route = "metricz/", timeout = 5)
+    expanded_hosts = hosts.map { |expr| MetricsDownloader.expand_host_expr(expr) }.flatten
+    urls = MetricsDownloader.create_urls_from_host_params(expanded_hosts, port, route)
+    json_trees = MetricsDownloader.download_and_parse_json_from_urls(urls, timeout)
+    Hash[expanded_hosts.zip(json_trees)]
+  end
 end
