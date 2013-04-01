@@ -23,7 +23,7 @@ class Array
 end
 
 def format(number)
-  "%7.3f" % [number]
+  "%7.3f" % [number] rescue number
 end
 
 json_trees = MetricsDownloader.parse_json_from(opts[:from].split(","), opts[:port], opts[:route],
