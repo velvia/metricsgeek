@@ -43,6 +43,10 @@ expands to
 
     --from server1.dc,server2.dc,server3.dc,server5.dc,server8.dc,server9.dc,server10.dc,server11.dc
 
+The above two features can be combined:
+
+    --from server[1..3,5,8].dc,server-prod-us-east[11..13].aws.com
+
 Metrics selection
 =================
 You can use the --list_keys option together with --from to list all the metrics keys available for querying.
