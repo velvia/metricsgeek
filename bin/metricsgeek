@@ -26,6 +26,11 @@ def format(number)
   "%7.3f" % [number] rescue number
 end
 
+if !opts[:from]
+  puts "You must specify --from.  Use --help for options."
+  exit 1
+end
+
 json_trees = MetricsDownloader.parse_json_from(MetricsDownloader.split_host_exprs(opts[:from]),
                                                opts[:port], opts[:route],
                                                opts[:timeout])
