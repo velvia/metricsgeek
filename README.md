@@ -68,4 +68,8 @@ Or, to sum up the POST rate from metric com.abc.webservice.posts.m1 across the c
 
 How to contribute
 =================
+You can run the test like this:
+
+    rspec metrics_downloader_spec.rb
+
 Pull requests are welcome!

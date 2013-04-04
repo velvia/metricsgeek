@@ -46,6 +46,28 @@ module MetricsDownloader
     end
   end
 
+  # @param host_exprs A single string with multiple host expressions separated by commas
+  # Splits a comma-delimited string of host exprs.  This is tricky since there may be commas within brackets
+  def self.split_host_exprs(host_exprs_str)
+    host_exprs = []
+    expr = ""
+    in_brackets = false
+    host_exprs_str.each_char do |c|
+      if c == "," && !in_brackets
+        host_exprs << expr
+        expr = ""
+        next
+      elsif c == "["
+        in_brackets = true
+      elsif c == "]"
+        in_brackets = false
+      end
+      expr << c
+    end
+    host_exprs << expr if expr != ""
+    host_exprs
+  end
+
   # Parses JSON from a list of host expressions, as passed to expand_host_expr.  Basically a combination
   # of expand_host_expr, create_urls_from_host_params, and download_and_parse_json_from_urls.
   #
