@@ -17,7 +17,7 @@ Install this gem:
 
 To get a list of metrics keys from your servers:
 
-    metricsgeek --list_keys --from "server[1..8].abc.com"
+    metricsgeek --list-keys --from "server[1..8].abc.com"
 
 To get two metrics, one a pattern, from your servers:
 
